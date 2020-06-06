@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:seekhealth/pages/Mapa.dart';
 
 
 class Mapa extends StatefulWidget {

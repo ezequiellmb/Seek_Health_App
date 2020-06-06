@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
-import 'ListaUsuario.dart';
 
 class Add extends StatefulWidget {
   @override
@@ -9,23 +8,19 @@ class Add extends StatefulWidget {
 }
 
 class _AddState extends State<Add> {
-  TextEditingController controllerNome = new TextEditingController();
-  TextEditingController controllerSenha = new TextEditingController();
-  TextEditingController controllerEmail = new TextEditingController();
-  TextEditingController controllerEndereco = new TextEditingController();
-  TextEditingController controllerUsuario = new TextEditingController();
+  TextEditingController controllerNome1 = new TextEditingController();
+  TextEditingController controllerEndereco1 = new TextEditingController();
+  TextEditingController controllerEspecialidade = new TextEditingController();
   
 var _formkey = GlobalKey<FormState>();
 
-  void add(){
-    var url="http://192.168.0.16/seekhealth/add.php";
+  void usadd(){
+    var url="http://192.168.0.16/seekhealth/us_add.php";
 
     http.post(url, body:{
-      "nome": controllerNome.text,
-      "senha": controllerSenha.text,
-      "email": controllerEmail.text,
-      "endereco": controllerEndereco.text,
-      "usuario": controllerUsuario.text,
+      "us_nome": controllerNome1.text,
+      "us_endereco": controllerEndereco1.text,
+      "us_especialidade": controllerEspecialidade.text,
     });
   }
   @override
@@ -57,7 +52,7 @@ var _formkey = GlobalKey<FormState>();
                 new ListTile(
                   leading: const Icon(Icons.person, color: Colors.black,),
                   title: new TextFormField(
-                    controller: controllerNome,
+                    controller: controllerNome1,
                     validator: (value){
                       if(value.isEmpty) return "Insira seu nome";
                     },
@@ -66,37 +61,10 @@ var _formkey = GlobalKey<FormState>();
                     ),
                 ),
                 ),
-
-                
-                new ListTile(
-                  leading: const Icon(Icons.email, color: Colors.black,),
-                  title: new TextFormField(
-                    controller: controllerEmail,
-                    validator: (value){
-                      if(value.isEmpty) return "Insira um Email";
-                    },
-                    decoration: new InputDecoration(
-                      hintText: "Email", labelText: "Email",
-                    ),
-                ),
-                ),
-                new ListTile(
-                  leading: const Icon(Icons.vpn_key, color: Colors.black,),
-                  title: new TextFormField(
-                    controller: controllerSenha,
-                    obscureText: true,
-                    validator: (value){
-                      if(value.isEmpty) return "Insira uma senha";
-                    },
-                    decoration: new InputDecoration(
-                      hintText: "Senha", labelText: "Senha",
-                    ),
-                ),
-                ),
                 new ListTile(
                   leading: const Icon(Icons.home, color: Colors.black,),
                   title: new TextFormField(
-                    controller: controllerEndereco,
+                    controller: controllerEndereco1,
                     validator: (value){
                       if(value.isEmpty) return "Insira seu endereço";
                     },
@@ -108,7 +76,7 @@ var _formkey = GlobalKey<FormState>();
                 new ListTile(
                   leading: const Icon(Icons.person, color: Colors.black,),
                   title: new TextFormField(
-                    controller: controllerUsuario,
+                    controller: controllerEspecialidade,
                     validator: (value){
                       if(value.isEmpty) return "Insere usuario";
                     },
@@ -117,19 +85,6 @@ var _formkey = GlobalKey<FormState>();
                     ),
                 ),
                 ),
-                
-                // new ListTile(
-                //   leading: const Icon(Icons.vpn_key, color: Colors.black,),
-                //   title: new TextFormField(
-                //     controller: controllerSenha,
-                //     validator: (value){
-                //       if(value.isEmpty) return "Confirme sua senha";
-                //     },
-                //     decoration: new InputDecoration(
-                //       hintText: "Validar senha", labelText: "Confirme sua senha",
-                //     ),
-                // ),
-                // ),
                 const Divider(
                     height: 1.0,
                   ),
@@ -143,8 +98,8 @@ var _formkey = GlobalKey<FormState>();
                       color: Colors.blue[900],
                       padding: EdgeInsets.fromLTRB(50, 16, 50, 16),
                       onPressed: (){
-                        add();
-                        Navigator.pushNamed(context, "/login");
+                        usadd();
+                        Navigator.pushNamed(context, "/listaUs");
                       },
                       shape: new RoundedRectangleBorder(borderRadius: new BorderRadius.circular(30.0))
                     ),

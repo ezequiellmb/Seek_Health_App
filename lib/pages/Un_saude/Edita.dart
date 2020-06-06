@@ -1,41 +1,35 @@
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-import 'package:seekhealth/pages/ListaUsuario.dart';
+import 'package:seekhealth/pages/Un_saude/Lista.dart';
 
 
-class Edit extends StatefulWidget {
+class Edita extends StatefulWidget {
   final List list;
   final int index;
-  Edit({this.list, this.index});
+  Edita({this.list, this.index});
   @override
-  _EditState createState() => _EditState();
+  _EditaState createState() => _EditaState();
 }
 
-class _EditState extends State<Edit> {
-  TextEditingController controllerNome;
-  TextEditingController controllerSenha;
-  TextEditingController controllerEmail;
-  TextEditingController controllerEndereco ;
-  TextEditingController controllerUsuario;
+class _EditaState extends State<Edita> {
+  TextEditingController controllerNome1;
+  TextEditingController controllerEndereco1;
+  TextEditingController controllerEspecialidade;
 
-  void edit(){
-    http.post("http://192.168.0.16/seekhealth/edit.php", body:{
-      "idUsuario": widget.list[widget.index]['idUsuario'],
-      "nome": controllerNome.text,
-      "senha": controllerSenha.text,
-      "email": controllerEmail.text,
-      "endereco": controllerEndereco.text,
-      "usuario": controllerUsuario.text,
+  void usedit(){
+    http.post("http://192.168.0.16/seekhealth/us_edit.php", body:{
+      "us_id": widget.list[widget.index]['us_id'],
+      "us_nome": controllerNome1.text,
+      "us_endereco": controllerEndereco1.text,
+      "us_especialidade": controllerEspecialidade.text,
     });
   }
 
   @override
   void initState(){
-    controllerNome=new TextEditingController(text: widget.list[widget.index]['nome']);
-    controllerSenha=new TextEditingController(text: widget.list[widget.index]['senha']);
-    controllerEmail=new TextEditingController(text: widget.list[widget.index]['email']);
-    controllerEndereco=new TextEditingController(text: widget.list[widget.index]['endereco']);
-    controllerUsuario=new TextEditingController(text: widget.list[widget.index]['usuario']);
+    controllerNome1=new TextEditingController(text: widget.list[widget.index]['us_nome']);
+    controllerEndereco1=new TextEditingController(text: widget.list[widget.index]['us_endereco']);
+    controllerEspecialidade=new TextEditingController(text: widget.list[widget.index]['us_especialidade']);
     super.initState();
   }
   
@@ -67,7 +61,7 @@ class _EditState extends State<Edit> {
                 new ListTile(
                   leading: const Icon(Icons.person, color: Colors.black,),
                   title: new TextFormField(
-                    controller: controllerNome,
+                    controller: controllerNome1,
                     validator: (value){
                       if(value.isEmpty)return "Insira um usuario";
                     },
@@ -76,35 +70,10 @@ class _EditState extends State<Edit> {
                     ),
                   ),
                 ),
-                new ListTile(
-                  leading: const Icon(Icons.vpn_key, color: Colors.black,),
-                  title: new TextFormField(
-                    controller: controllerSenha,
-                    obscureText: true,
-                    validator: (value){
-                      if(value.isEmpty) return "Confirme sua senha";
-                    },
-                    decoration: new InputDecoration(
-                      hintText: "Senha", labelText: "Senha",
-                    ),
-                  ),
-                  ),
-                  new ListTile(
-                  leading: const Icon(Icons.alternate_email, color: Colors.black,),
-                  title: new TextFormField(
-                    controller: controllerEmail,
-                    validator: (value){
-                      if(value.isEmpty) return "Confirme seu Email";
-                    },
-                    decoration: new InputDecoration(
-                      hintText: "Email", labelText: "Email",
-                    ),
-                  ),
-                  ),
                   new ListTile(
                   leading: const Icon(Icons.home, color: Colors.black,),
                   title: new TextFormField(
-                    controller: controllerEndereco,
+                    controller: controllerEndereco1,
                     validator: (value){
                       if(value.isEmpty) return "Confirme seu Endereço";
                     },
@@ -116,12 +85,12 @@ class _EditState extends State<Edit> {
                   new ListTile(
                   leading: const Icon(Icons.person_add, color: Colors.black,),
                   title: new TextFormField(
-                    controller: controllerUsuario,
+                    controller: controllerEspecialidade,
                     validator: (value){
-                      if(value.isEmpty) return "Confirme seu Usuario";
+                      if(value.isEmpty) return "Confirme as Especialidades";
                     },
                     decoration: new InputDecoration(
-                      hintText: "Usuario", labelText: "Usuario",
+                      hintText: "Especialidade", labelText: "Especialidade",
                     ),
                   ),
                   ),
@@ -141,10 +110,10 @@ class _EditState extends State<Edit> {
                       color: Colors.blue[900],
                       padding: EdgeInsets.fromLTRB(70, 16, 70, 16),
                       onPressed: (){
-                            edit();
+                            usedit();
                            Navigator.of(context).push(
                         new MaterialPageRoute(
-                          builder: (BuildContext context)=>new ListaUser()
+                          builder: (BuildContext context)=>new Lista()
                         ),
                            );
                       },

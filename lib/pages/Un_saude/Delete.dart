@@ -1,28 +1,28 @@
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-import 'package:seekhealth/pages/ListaUsuario.dart';
-import 'package:seekhealth/pages/edita.dart';
+import 'package:seekhealth/pages/Un_saude/Lista.dart';
+import 'package:seekhealth/pages/Un_saude/Edita.dart';
 
-class Detail extends StatefulWidget {
+class Delete extends StatefulWidget {
   List list;
   int index;
-  Detail({this.index,this.list});
+  Delete({this.index,this.list});
   @override
-  _DetailState createState() => _DetailState();
+  _DeleteState createState() => _DeleteState();
 }
 
-class _DetailState extends State<Detail> {
-  void delete(){
-    var url="http://192.168.0.16/seekhealth/delete.php";
+class _DeleteState extends State<Delete> {
+  Future<void> usdelete() async {
+    var url="http://192.168.0.16/seekhealth/us_delete.php";
     http.post(url, body:{
-      'idUsuario': widget.list[widget.index]['idUsuario']
+      'us_id': widget.list[widget.index]['us_id']
     });
   }
 
   void Confirmar(){
     AlertDialog alertDialog = new AlertDialog(
       backgroundColor: Colors.red[100],
-      content: new Text("   Excluir ${widget.list[widget.index]['nome']}?", style: new TextStyle(color: Colors.black, fontSize: 16.0),),
+      content: new Text("   Excluir ${widget.list[widget.index]['us_nome']}?", style: new TextStyle(color: Colors.black, fontSize: 16.0),),
       actions: <Widget>[
         new RaisedButton(
           
@@ -32,10 +32,10 @@ class _DetailState extends State<Detail> {
           borderRadius: new BorderRadius.circular(30.0)
           ),
           onPressed: (){
-            delete();
+            usdelete();
             Navigator.of(context).push(
               new MaterialPageRoute(
-                builder: (BuildContext context) => ListaUser(),
+                builder: (BuildContext context) => Lista(),
             )
             );
           },
@@ -56,7 +56,7 @@ class _DetailState extends State<Detail> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: new Text("${widget.list[widget.index]['nome']}"),
+      appBar: AppBar(title: new Text("${widget.list[widget.index]['us_nome']}"),
       backgroundColor: Colors.blue,
       ),
       body: new Container(
@@ -68,18 +68,11 @@ class _DetailState extends State<Detail> {
               child: new Column(
                 children: <Widget>[
                   new Padding(padding: const EdgeInsets.only(top: 30.0),),
-                  new Text(widget.list[widget.index]['nome'],style: new TextStyle(fontSize: 20.0),),
+                  new Text(widget.list[widget.index]['us_nome'],style: new TextStyle(fontSize: 20.0),),
                   Divider(),
-                  new Text("${widget.list[widget.index]['email']}", style: new TextStyle(fontSize: 18.0,color: Colors.black),
+                  new Text("${widget.list[widget.index]['us_endereco']}", style: new TextStyle(fontSize: 18.0,color: Colors.black),
                   ),
-                  Divider(),
-                  new Text("${widget.list[widget.index]['endereco']}", style: new TextStyle(fontSize: 18.0,color: Colors.black),
-                  ),
-                  Divider(),
-                  new Text("${widget.list[widget.index]['usuario']}", style: new TextStyle(fontSize: 18.0,color: Colors.black),
-                  ),
-                  Divider(),
-                  new Text("${widget.list[widget.index]['senha']}", style: new TextStyle(fontSize: 18.0,color: Colors.black),
+                  new Text("${widget.list[widget.index]['us_especialidade']}", style: new TextStyle(fontSize: 18.0,color: Colors.black),
                   ),
                   new Padding(padding:const EdgeInsets.only(top: 30.0),),
                   new Row(
@@ -95,7 +88,7 @@ class _DetailState extends State<Detail> {
                         ),
                         onPressed: ()=>Navigator.of(context).push(
                           new MaterialPageRoute(
-                            builder: (BuildContext context)=>new Edit(list:widget.list, index: widget.index,),
+                            builder: (BuildContext context)=>new Edita(list:widget.list, index: widget.index,),
                           )
                         ),
                       ),
@@ -115,10 +108,7 @@ class _DetailState extends State<Detail> {
               ),
             ),
           ),
-      )
-      
-
-      
+      ) 
     );
   }
 }
