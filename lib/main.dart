@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:seekhealth/pages/Adm.dart';
+import 'package:seekhealth/pages/Detail.dart';
 import 'package:seekhealth/pages/ListaUsuario.dart';
 import 'package:seekhealth/pages/Un_saude/Delete.dart';
 import 'package:seekhealth/pages/Un_saude/Lista.dart';
@@ -8,6 +9,7 @@ import 'dart:convert';
 import 'dart:async';
 import 'package:http/http.dart' as http;
 import 'package:seekhealth/pages/RecSenha.dart';
+import 'package:seekhealth/pages/User.dart';
 import 'package:seekhealth/pages/registro.dart';
 
 
@@ -33,6 +35,8 @@ class MyApp extends StatelessWidget{
         '/adm': (BuildContext context)=> new Adm(),
         '/listaUs': (BuildContext context)=> new Lista(),
         '/delete': (BuildContext context)=> new Delete(),
+        '/detail': (BuildContext context)=> new Detail(),
+        '/user': (BuildContext context)=> new User(),
       },
   );
   }
@@ -46,7 +50,7 @@ class Login extends StatefulWidget {
 
 class _LoginState extends State<Login>{
 
-  TextEditingController controllerNome = new TextEditingController();
+  TextEditingController controllerEmail = new TextEditingController();
   TextEditingController controllerSenha = new TextEditingController();
 
   String mensagem = '';
@@ -55,7 +59,7 @@ class _LoginState extends State<Login>{
   Future<List> _login() async{
     
     final response = await http.post("http://192.168.0.16/seekhealth/login.php", body: {
-    "nome": controllerNome.text,
+    "email": controllerEmail.text,
     "senha": controllerSenha.text,
     });
   
@@ -70,7 +74,7 @@ class _LoginState extends State<Login>{
       if(datauser[0]['tipo']=='admin'){
       Navigator.pushNamed(context, '/adm');
       } else if(datauser[0]['tipo']=='user'){
-      Navigator.pushNamed(context, '/mapaaa');
+      Navigator.pushNamed(context, '/user');
       } else {
         Navigator.pushNamed(context, '/login');
       }
@@ -84,6 +88,8 @@ class _LoginState extends State<Login>{
 
   return datauser;
 } 
+
+bool _showPassword = false;
   
     @override
     Widget build(BuildContext context) {
@@ -117,15 +123,17 @@ class _LoginState extends State<Login>{
                     width: 177.0,//Tamanho da imagem 
                     height: 177.0,
                   ),
+                  Text(mensagem,style: TextStyle(fontSize: 20.0,color: Colors.red),
+                  textAlign: TextAlign.center,),
                   Divider(),
                   TextField(
-                    controller: controllerNome,
+                    controller: controllerEmail,
                     autofocus: true,
                     keyboardType: TextInputType.emailAddress,
                     style: TextStyle(fontSize:20),
                     decoration: InputDecoration(
                       contentPadding: EdgeInsets.fromLTRB(32, 16, 32, 16),
-                      hintText: "Nome",
+                      hintText: "Email",
                       filled: true,
                       fillColor: Colors.white,
                       border: OutlineInputBorder(
@@ -136,10 +144,20 @@ class _LoginState extends State<Login>{
                   Divider(),
                   TextField(
                     controller: controllerSenha,
-                    obscureText: true,
+                    obscureText: !_showPassword,
                     keyboardType: TextInputType.emailAddress,
                     style: TextStyle(fontSize:20),
                     decoration: InputDecoration(
+                      suffixIcon: GestureDetector(
+                        onTap: () {
+                          setState(() {
+                            _showPassword = !_showPassword;
+                          });
+                        },
+                        child: Icon(
+                          _showPassword ? Icons.visibility : Icons.visibility_off,
+                        ),
+                      ),
                       contentPadding: EdgeInsets.fromLTRB(32, 16, 32, 16),
                       hintText: "Senha",
                       filled: true,
@@ -162,7 +180,7 @@ class _LoginState extends State<Login>{
                         // Navigator.pushNamed(context, "/rsenha");
                         onPressed: (){
                         Navigator.of(context).push(new MaterialPageRoute(
-                          builder: (BuildContext context)=> new Adm(),
+                          builder: (BuildContext context)=> new RecSenha(),
                           ));
                       },
                      ),
@@ -183,9 +201,7 @@ class _LoginState extends State<Login>{
                       // Borda do botão circular
                         shape: new RoundedRectangleBorder(borderRadius: new BorderRadius.circular(30.0))
                     ),
-
                   ),
-
                       Padding(
                       padding: EdgeInsets.fromLTRB(70, 16, 70, 2),
                       child: RaisedButton(
@@ -216,8 +232,6 @@ class _LoginState extends State<Login>{
                       },
                      ),
                   ),
-                  Text(mensagem,style: TextStyle(fontSize: 20.0,color: Colors.red),
-                  textAlign: TextAlign.center,)
                 ],  
               ),
             ),

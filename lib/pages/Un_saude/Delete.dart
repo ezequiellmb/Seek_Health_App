@@ -6,49 +6,52 @@ import 'package:seekhealth/pages/Un_saude/Edita.dart';
 class Delete extends StatefulWidget {
   List list;
   int index;
-  Delete({this.index,this.list});
+  Delete({this.index, this.list});
   @override
   _DeleteState createState() => _DeleteState();
 }
 
 class _DeleteState extends State<Delete> {
   Future<void> usdelete() async {
-    var url="http://192.168.0.16/seekhealth/us_delete.php";
-    http.post(url, body:{
-      'us_id': widget.list[widget.index]['us_id']
-    });
+    var url = "http://192.168.0.16/seekhealth/us_delete.php";
+    http.post(url, body: {'us_id': widget.list[widget.index]['us_id']});
   }
 
-  void Confirmar(){
+  void Confirmar() {
     AlertDialog alertDialog = new AlertDialog(
-      backgroundColor: Colors.red[100],
-      content: new Text("   Excluir ${widget.list[widget.index]['us_nome']}?", style: new TextStyle(color: Colors.black, fontSize: 16.0),),
+      backgroundColor: Colors.white,
+      content: new Text(
+        "   Excluir ${widget.list[widget.index]['us_nome']}?",
+        style: new TextStyle(color: Colors.black, fontSize: 16.0),
+      ),
       actions: <Widget>[
         new RaisedButton(
-          
-          child: new Text("Sim", style: new TextStyle(color: Colors.black),),
-          color: Colors.blue,
-          shape: new RoundedRectangleBorder(
-          borderRadius: new BorderRadius.circular(30.0)
-          ),
-          onPressed: (){
-            usdelete();
-            Navigator.of(context).push(
-              new MaterialPageRoute(
+            child: new Text(
+              "Sim",
+              style: new TextStyle(color: Colors.white),
+            ),
+            color: Colors.green[800],
+            shape: new RoundedRectangleBorder(
+                borderRadius: new BorderRadius.circular(30.0)),
+            onPressed: () {
+              usdelete();
+              Navigator.of(context).push(new MaterialPageRoute(
                 builder: (BuildContext context) => Lista(),
-            )
-            );
-          },
-        ),
+              ));
+            }),
         new RaisedButton(
-          child: new Text("Cancelar", style: new TextStyle(color: Colors.black),),
-          color: Colors.red[200],
-          shape: new RoundedRectangleBorder(
-          borderRadius: new BorderRadius.circular(30.0)
+          child: new Text(
+            "Cancelar",
+            style: new TextStyle(color: Colors.white),
           ),
+          color: Colors.red[900],
+          shape: new RoundedRectangleBorder(
+              borderRadius: new BorderRadius.circular(30.0)),
           onPressed: () => Navigator.pop(context),
         )
       ],
+      shape: new RoundedRectangleBorder(
+          borderRadius: new BorderRadius.circular(30.0)),
     );
     showDialog(context: context, child: alertDialog);
   }
@@ -56,10 +59,12 @@ class _DeleteState extends State<Delete> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: new Text("${widget.list[widget.index]['us_nome']}"),
-      backgroundColor: Colors.blue,
-      ),
-      body: new Container(
+        appBar: AppBar(
+          title: new Text("${widget.list[widget.index]['us_nome']}"),
+          backgroundColor: Colors.indigo[900],
+        ),
+        body: new Container(
+          color: Colors.black12,
           height: 700,
           padding: const EdgeInsets.all(10.0),
           child: new Card(
@@ -67,40 +72,54 @@ class _DeleteState extends State<Delete> {
             child: new Center(
               child: new Column(
                 children: <Widget>[
-                  new Padding(padding: const EdgeInsets.only(top: 30.0),),
-                  new Text(widget.list[widget.index]['us_nome'],style: new TextStyle(fontSize: 20.0),),
+                  new Padding(
+                    padding: const EdgeInsets.only(top: 30.0),
+                  ),
+                  new Text(
+                    widget.list[widget.index]['us_nome'],
+                    style: new TextStyle(fontSize: 20.0),
+                  ),
                   Divider(),
-                  new Text("${widget.list[widget.index]['us_endereco']}", style: new TextStyle(fontSize: 18.0,color: Colors.black),
+                  new Text(
+                    "${widget.list[widget.index]['us_endereco']}",
+                    style: new TextStyle(fontSize: 18.0, color: Colors.black),
                   ),
-                  new Text("${widget.list[widget.index]['us_especialidade']}", style: new TextStyle(fontSize: 18.0,color: Colors.black),
+                  new Text(
+                    "${widget.list[widget.index]['us_especialidade']}",
+                    style: new TextStyle(fontSize: 18.0, color: Colors.black),
                   ),
-                  new Padding(padding:const EdgeInsets.only(top: 30.0),),
+                  new Padding(
+                    padding: const EdgeInsets.only(top: 30.0),
+                  ),
                   new Row(
                     mainAxisSize: MainAxisSize.min,
                     children: <Widget>[
                       new RaisedButton(
-                        child: new Text("Editar",
-                        style: TextStyle(fontSize: 18.0, color: Colors.white),
+                        child: new Text(
+                          "Editar",
+                          style: TextStyle(fontSize: 18.0, color: Colors.white),
                         ),
-                        color: Colors.blueGrey,
+                        color: Colors.blue[900],
                         shape: new RoundedRectangleBorder(
-                          borderRadius: new BorderRadius.circular(30.0)
-                        ),
-                        onPressed: ()=>Navigator.of(context).push(
-                          new MaterialPageRoute(
-                            builder: (BuildContext context)=>new Edita(list:widget.list, index: widget.index,),
-                          )
-                        ),
+                            borderRadius: new BorderRadius.circular(30.0)),
+                        onPressed: () =>
+                            Navigator.of(context).push(new MaterialPageRoute(
+                          builder: (BuildContext context) => new Edita(
+                            list: widget.list,
+                            index: widget.index,
+                          ),
+                        )),
                       ),
                       VerticalDivider(),
                       new RaisedButton(
-                        child: new Text("Excluir",
-                        style: TextStyle(fontSize: 18.0, color: Colors.white),
+                        child: new Text(
+                          "Excluir",
+                          style: TextStyle(fontSize: 18.0, color: Colors.white),
                         ),
                         color: Colors.red[900],
                         shape: new RoundedRectangleBorder(
-                          borderRadius: new BorderRadius.circular(30.0)),
-                        onPressed: ()=>Confirmar(),
+                            borderRadius: new BorderRadius.circular(30.0)),
+                        onPressed: () => Confirmar(),
                       ),
                     ],
                   ),
@@ -108,7 +127,6 @@ class _DeleteState extends State<Delete> {
               ),
             ),
           ),
-      ) 
-    );
+        ));
   }
 }

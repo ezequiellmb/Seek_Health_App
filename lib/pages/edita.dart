@@ -17,6 +17,7 @@ class _EditState extends State<Edit> {
   TextEditingController controllerEmail;
   TextEditingController controllerEndereco ;
   TextEditingController controllerUsuario;
+  TextEditingController controllerDtNasc;
 
   void edit(){
     http.post("http://192.168.0.16/seekhealth/edit.php", body:{
@@ -26,6 +27,7 @@ class _EditState extends State<Edit> {
       "email": controllerEmail.text,
       "endereco": controllerEndereco.text,
       "usuario": controllerUsuario.text,
+      "dt_nasc": controllerDtNasc.text,
     });
   }
 
@@ -36,6 +38,7 @@ class _EditState extends State<Edit> {
     controllerEmail=new TextEditingController(text: widget.list[widget.index]['email']);
     controllerEndereco=new TextEditingController(text: widget.list[widget.index]['endereco']);
     controllerUsuario=new TextEditingController(text: widget.list[widget.index]['usuario']);
+    controllerDtNasc=new TextEditingController(text: widget.list[widget.index]['dt_nasc']);
     super.initState();
   }
   
@@ -122,6 +125,18 @@ class _EditState extends State<Edit> {
                     },
                     decoration: new InputDecoration(
                       hintText: "Usuario", labelText: "Usuario",
+                    ),
+                  ),
+                  ),
+                  new ListTile(
+                  leading: const Icon(Icons.person_add, color: Colors.black,),
+                  title: new TextFormField(
+                    controller: controllerDtNasc,
+                    validator: (value){
+                      if(value.isEmpty) return "Confirme sua data de nascimento";
+                    },
+                    decoration: new InputDecoration(
+                      hintText: "Data de Nascimento", labelText: "Data Nascimento",
                     ),
                   ),
                   ),
